@@ -1,0 +1,17 @@
+---
+version: 2
+updates:
+  - package-ecosystem: docker
+    directory: /
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+    rebase-strategy: disabled
+  - package-ecosystem: pip
+    directory: /web/
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7
+    rebase-strategy: disabled
