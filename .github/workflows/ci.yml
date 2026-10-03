@@ -30,7 +30,8 @@ jobs:
       - name: Install python dependencies
         run: pip3 install -c web/requirements-dev.txt ruff yamllint
       - name: Run yamllint
-        run: yamllint -s -d '{extends: default, rules: {line-length: disable}}' .
+        run: |
+          yamllint -s -d '{extends: default, rules: {line-length: disable}}' .
       - name: Run ruff check
         run: ruff check
       - name: Run ruff format
