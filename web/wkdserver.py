@@ -18,8 +18,14 @@ def sanitize(s):
     return s.strip().lower()
 
 
+@api.route("/.well-known/openpgpkey/hu/<wkd_hash>", methods=["GET"])
 @api.route("/.well-known/openpgpkey/<domain>/hu/<wkd_hash>", methods=["GET"])
-def serve_wkd_key(domain, wkd_hash):
+def serve_wkd_key(wkd_hash, domain=None):
+    if domain is None:
+        try:
+            domain = os.environ["VALKEY_URL"]
+        excpet KeyError:
+            abort(404)
     try:
         db = get_valkey_client()
         key_bytes = db.get(f"wkd:{sanitize(domain)}:hu:{sanitize(wkd_hash)}")
