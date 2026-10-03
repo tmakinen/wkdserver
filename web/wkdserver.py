@@ -24,7 +24,7 @@ def serve_wkd_key(wkd_hash, domain=None):
     if domain is None:
         try:
             domain = os.environ["VALKEY_URL"]
-        excpet KeyError:
+        except KeyError:
             abort(404)
     try:
         db = get_valkey_client()
