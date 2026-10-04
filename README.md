@@ -26,6 +26,22 @@ To achieve reliable key lookup matching standard PGP client automation rules (li
 
 ---
 
+## Web Landing Page
+
+The microservice automatically handles traffic hitting the domain root (`/`), preventing uninformative 404 errors for web browsers or manual testing queries.
+
+### Default Behavior
+When no custom configuration is supplied, the API renders a clean, minimal text layout verifying service availability and providing basic usage guidance for command-line clients.
+
+### Custom HTML Overrides
+You can replace the default landing page template dynamically without rebuilding the image. This requires two configurations in your deployment environment:
+1. **`CUSTOM_HTML` Variable:** Set this environment variable to point to the absolute path of your custom target file inside the container shell.
+2. **Volume Mount:** Mount your local host directory or index file into your container system.
+
+*Note: If `CUSTOM_HTML` is declared but the file path cannot be resolved at runtime, the API will register an error to logs and abort with a `500 Internal Server Error` to flag the configuration mismatch.*
+
+---
+
 ## Deployment (Docker Compose)
 
 The easiest way to execute this microservice stack is by deploying it behind your infrastructure's main load balancer using the unified architecture defined below.
@@ -54,8 +70,13 @@ services:
     environment:
       - VALKEY_URL=redis://wkd-cache:6379/0
       - DEFAULT_DOMAIN=example.com
+      # Configuration path for custom web landing page dashboard
+      - CUSTOM_HTML=/app/static/index.html
     ports:
       - "8000:8000"
+    volumes:
+      # Use :Z suffix on systems running SELinux (RHEL, Fedora, Rocky)
+      - ./html:/app/static:Z
     depends_on:
       - wkd-cache
 
