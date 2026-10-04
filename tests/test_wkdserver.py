@@ -18,7 +18,7 @@ def load_module(monkeypatch, *, default_domain=None, custom_html=None):
 
     class FakeValkey:
         def __init__(self, connection_pool=None):
-            store = {}
+            self.store = {}
             self.connection_pool = connection_pool
 
         def get(self, key):
