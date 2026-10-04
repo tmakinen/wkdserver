@@ -57,7 +57,7 @@ def serve_index():
 def serve_wkd_key(wkd_hash, domain=None):
     if domain is None:
         try:
-            domain = os.environ["VALKEY_URL"]
+            domain = os.environ["DEFAULT_DOMAIN"]
         except KeyError:
             abort(404)
     try:
