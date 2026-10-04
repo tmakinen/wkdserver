@@ -17,9 +17,8 @@ def load_module(monkeypatch, *, default_domain=None, custom_html=None):
             return {"value": value}
 
     class FakeValkey:
-        store = {}
-
         def __init__(self, connection_pool=None):
+            store = {}
             self.connection_pool = connection_pool
 
         def get(self, key):
@@ -68,7 +67,9 @@ def test_serve_index_returns_500_for_missing_custom_html(monkeypatch):
 def test_serve_wkd_key_returns_key_for_advanced_route(monkeypatch):
     module = load_module(monkeypatch)
     module.valkey.Valkey.store = {"wkd:example.com:hu:abcd": b"secret-key"}
-    response = module.api.test_client().get("/.well-known/openpgpkey/example.com/hu/abcd")
+    response = module.api.test_client().get(
+        "/.well-known/openpgpkey/example.com/hu/abcd"
+    )
 
     assert response.status_code == 200
     assert response.mimetype == "application/octet-stream"
