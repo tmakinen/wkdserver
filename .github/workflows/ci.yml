@@ -56,6 +56,6 @@ jobs:
         with:
           python-version-file: ".python-version"
       - name: Install python dependencies
-        run: pip3 install -c web/requirements-dev.txt
+        run: pip3 install -r web/requirements-dev.txt
       - name: Run pytest
         run: pytest
