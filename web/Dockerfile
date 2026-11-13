@@ -17,7 +17,7 @@ RUN set -eux ; \
     groupadd wkd ; \
     useradd -d /var/empty -s /bin/false -g wkd wkd
 
-COPY wkdserver.py /usr/local/lib/python3.14/site-packages/
+COPY wkdserver.py /usr/local/lib/python3.15/site-packages/
 
 USER wkd
 
